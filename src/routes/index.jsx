@@ -6,8 +6,8 @@ function Rotas() {
   return (
     <Routes>
       <Route path={"/"} element={<Layout />}>
-        <Route path="new-products" element={<Products />} />
-        <Route path="products" element={<NewProducts />} />
+        <Route path="" element={<Products />} />
+        <Route path="new-products" element={<NewProducts />} />
       </Route>
     </Routes>
   );
