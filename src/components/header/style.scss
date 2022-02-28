@@ -1,0 +1,11 @@
+@import "../../assets/colors.scss";
+@import "../../assets/fonts.scss";
+
+.header {
+  min-width: auto;
+  border-bottom: 0.2rem $grey-three solid;
+  margin: 0 2rem;
+  padding: 2rem;
+  @include fonts-title-h1();
+  color: $grey-one;
+}
