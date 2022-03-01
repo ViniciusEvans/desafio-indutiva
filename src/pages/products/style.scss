@@ -1,3 +1,6 @@
+@import "../../assets/colors.scss";
+@import "../../assets/fonts.scss";
+
 table {
   font-size: 1.6rem;
   td {
@@ -7,4 +10,22 @@ table {
     cursor: pointer;
     max-height: 7rem;
   }
+}
+.btn {
+  padding: 0.7rem 2rem;
+  border-radius: 0.5rem;
+  border: 0.1rem $grey-three solid;
+  @include fonts-small-body-p();
+  &:active {
+    opacity: 1;
+  }
+  &:hover {
+    opacity: 0.9;
+  }
+}
+.btn-cancel {
+  background-color: $feedback-error-dark;
+}
+.btn-confirm {
+  background-color: $verdeClaro;
 }
