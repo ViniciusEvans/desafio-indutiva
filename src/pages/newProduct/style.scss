@@ -1,0 +1,22 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 1.6rem;
+  .input-group-text {
+    font-size: 1.6rem;
+  }
+  input {
+    height: 4rem;
+  }
+  input::placeholder {
+    font-size: 1.6rem;
+  }
+  .btn {
+    height: 4rem;
+  }
+  .row {
+    display: flex;
+    justify-content: center;
+  }
+}
