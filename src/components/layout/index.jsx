@@ -7,7 +7,7 @@ function Layout() {
   return (
     <UserProvider>
       <Container fluid className="app-background">
-        <Row className="app-overall-size">
+        <Row className="app-overall-size" style={{ marginRight: "0" }}>
           <Col sm={1} className="navBar-container px-0">
             <NavBar />
           </Col>
@@ -16,7 +16,7 @@ function Layout() {
               fluid
               style={{
                 background: "#E5E5E5",
-                minHeight: "100vh",
+                minHeight: "100%",
                 padding: "0",
               }}
             >
