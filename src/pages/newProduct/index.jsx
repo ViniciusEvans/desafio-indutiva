@@ -20,24 +20,22 @@ function NewProducts() {
     description: "",
   });
 
-  useEffect(() => {
+  useEffect(async () => {
     if (addOrEdit[0] === "edit") {
-      handleGetById();
+      await handleGetById();
       return;
     }
   }, []);
-
   useEffect(() => {
-    const verify = validationStepTwo();
-    if (!verify) {
-      setNotSend(true);
+    if (notSend) {
+      handleEdit();
       return;
     }
-    setNotSend(false);
   }, [errorText]);
 
   async function handleEdit() {
-    if (notSend) {
+    const verify = validationStepTwo();
+    if (!verify) {
       return;
     }
     const body = {
@@ -91,9 +89,10 @@ function NewProducts() {
   async function handleSubmit(event) {
     event.stopPropagation();
     event.preventDefault();
+    setValidated(true);
     if (addOrEdit[0] === "edit") {
       validationEdit();
-      handleEdit();
+      setNotSend(true);
       return;
     }
     const verifiy = validationStepTwo();
@@ -226,6 +225,7 @@ function NewProducts() {
             onChange={(e) => {
               handleChange(e.target.value, "title");
               validationStepOne(e);
+              setNotSend(false);
             }}
           />
           <Form.Control.Feedback type="invalid">
@@ -247,6 +247,7 @@ function NewProducts() {
             onChange={(e) => {
               handleChange(e.target.value, "image");
               validationStepOne(e);
+              setNotSend(false);
             }}
           />
           <Form.Control.Feedback type="invalid">
@@ -277,6 +278,7 @@ function NewProducts() {
               onChange={(e) => {
                 handleChange(e.target.value, "amount");
                 validationStepOne(e);
+                setNotSend(false);
               }}
             />
             <Form.Control.Feedback type="invalid">
@@ -307,6 +309,7 @@ function NewProducts() {
             onChange={(e) => {
               handleChange(e.target.value, "description");
               validationStepOne(e);
+              setNotSend(false);
             }}
           />
           <Form.Control.Feedback type="invalid">
