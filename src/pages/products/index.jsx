@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Modal, Table } from "react-bootstrap";
+import {
+  Container,
+  Modal,
+  Table,
+  InputGroup,
+  FormControl,
+  Button,
+} from "react-bootstrap";
 import deleteIcon from "../../assets/deleteIcon.svg";
 import editIcon from "../../assets/editIcon.svg";
+import search from "../../assets/search.svg";
 import useUser from "../../hooks/userUser";
 import "./style.scss";
 
@@ -12,6 +20,7 @@ function Products() {
   const [deleteModal, setDeleteModal] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [id, setId] = useState("");
+  const [serachBar, setSearchBar] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,7 +46,6 @@ function Products() {
       );
       const data = await response.json();
       setProducts(data);
-      setToggle(!toggle);
     } catch (error) {
       notify(error.message, "error");
     }
@@ -59,7 +67,7 @@ function Products() {
       );
       const data = await response.json();
       setToggle(!toggle);
-      setTimeout(() => setDeleteModal(false), 2000);
+      setTimeout(() => setDeleteModal(false), 700);
       if (data.error) {
         notify(data.error, "error");
       }
@@ -68,8 +76,23 @@ function Products() {
       notify(error.error, "error");
     }
   }
+
   return (
     <Container>
+      <InputGroup className="mb-3">
+        <FormControl
+          placeholder="Digite o nome do produto aqui..."
+          aria-label="Digite o nome do produto aqui"
+          aria-describedby="search-button"
+          value={serachBar}
+          onChange={async (e) => {
+            setSearchBar(e.target.value);
+          }}
+        />
+        <Button variant="outline-secondary" id="button-search">
+          <img src={search} alt="search icon" />
+        </Button>
+      </InputGroup>
       <Table striped hover>
         <thead>
           <tr>
@@ -83,34 +106,37 @@ function Products() {
           </tr>
         </thead>
         <tbody>
-          {products.map((item) => (
-            <tr>
-              <td>{item.id}</td>
-              <td>{item.title}</td>
-              <td>
-                <img src={item.image} />
-              </td>
-              <td>{formatToCurrency(item.amount)}</td>
-              <td>{item.description}</td>
-              <td>
-                <img
-                  onClick={() => handleEditProduct(item.id)}
-                  src={editIcon}
-                  alt="edit"
-                />
-              </td>
-              <td>
-                <img
-                  onClick={() => {
-                    setDeleteModal(true);
-                    setId(item.id);
-                  }}
-                  src={deleteIcon}
-                  alt="delete"
-                />
-              </td>
-            </tr>
-          ))}
+          {products.map(
+            (item) =>
+              item.title.toLowerCase().match(serachBar.toLocaleLowerCase()) && (
+                <tr>
+                  <td>{item.id}</td>
+                  <td>{item.title}</td>
+                  <td>
+                    <img src={item.image} />
+                  </td>
+                  <td>{formatToCurrency(item.amount)}</td>
+                  <td>{item.description}</td>
+                  <td>
+                    <img
+                      onClick={() => handleEditProduct(item.id)}
+                      src={editIcon}
+                      alt="edit"
+                    />
+                  </td>
+                  <td>
+                    <img
+                      onClick={() => {
+                        setDeleteModal(true);
+                        setId(item.id);
+                      }}
+                      src={deleteIcon}
+                      alt="delete"
+                    />
+                  </td>
+                </tr>
+              )
+          )}
         </tbody>
       </Table>
       <Modal
