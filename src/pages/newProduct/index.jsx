@@ -6,6 +6,7 @@ import "./style.scss";
 function NewProducts() {
   const { notify, addOrEdit } = useUser();
   const [validated, setValidated] = useState(false);
+  const [notSend, setNotSend] = useState(false);
   const [formValues, setFormValues] = useState({
     title: "",
     amount: "",
@@ -26,9 +27,17 @@ function NewProducts() {
     }
   }, []);
 
+  useEffect(() => {
+    const verify = validationStepTwo();
+    if (!verify) {
+      setNotSend(true);
+      return;
+    }
+    setNotSend(false);
+  }, [errorText]);
+
   async function handleEdit() {
-    const verifiy = validationStepTwo();
-    if (!verifiy) {
+    if (notSend) {
       return;
     }
     const body = {
@@ -49,6 +58,9 @@ function NewProducts() {
         }
       );
       const data = await response.json();
+      if (data.error) {
+        notify(data.error, "error");
+      }
       notify(data.success, "success");
     } catch (error) {
       notify(error.message, "error");
@@ -79,7 +91,6 @@ function NewProducts() {
   async function handleSubmit(event) {
     event.stopPropagation();
     event.preventDefault();
-    setValidated(true);
     if (addOrEdit[0] === "edit") {
       validationEdit();
       handleEdit();
